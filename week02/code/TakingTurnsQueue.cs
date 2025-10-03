@@ -9,7 +9,7 @@
 /// </summary>
 public class TakingTurnsQueue
 {
-    private readonly PersonQueue _people = new();
+    private readonly PersonQueue _people = new(); // Use a standard Queue
 
     public int Length => _people.Length;
 
@@ -40,10 +40,18 @@ public class TakingTurnsQueue
         else
         {
             Person person = _people.Dequeue();
-            if (person.Turns > 1)
+
+            // If the person has finite turns, decrement their turn and re-enqueue if they still have turns left
+            if (person.Turns > 0)
             {
-                person.Turns -= 1;
-                _people.Enqueue(person);
+                person.Turns--;
+                _people.Enqueue(person);  // Re-enqueue them for another turn
+            }
+
+            // If they have infinite turns (turns == 0 or less), they stay in the queue without decrementing their turns
+            else
+            {
+                _people.Enqueue(person);  // Infinite turns, they stay in the queue forever
             }
 
             return person;
@@ -54,4 +62,5 @@ public class TakingTurnsQueue
     {
         return _people.ToString();
     }
+
 }

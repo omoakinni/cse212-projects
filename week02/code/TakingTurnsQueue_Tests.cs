@@ -111,7 +111,7 @@ public class TakingTurnsQueueTests
             Assert.AreEqual(expectedResult[i].Name, person.Name);
         }
 
-        // Verify that the people with infinite turns really do have infinite turns.
+        // Verify that Tim with infinite turns stays in the queue
         var infinitePerson = players.GetNextPerson();
         Assert.AreEqual(timTurns, infinitePerson.Turns, "People with infinite turns should not have their turns parameter modified to a very big number. A very big number is not infinite.");
     }
@@ -127,7 +127,7 @@ public class TakingTurnsQueueTests
         var tim = new Person("Tim", timTurns);
         var sue = new Person("Sue", 3);
 
-        Person[] expectedResult = {tim, sue, tim, sue, tim, sue, tim, tim, tim, tim};
+        Person[] expectedResult = { tim, sue, tim, sue, tim, sue, tim, tim, tim, tim};
 
         var players = new TakingTurnsQueue();
         players.AddPerson(tim.Name, tim.Turns);
@@ -136,12 +136,12 @@ public class TakingTurnsQueueTests
         for (int i = 0; i < 10; i++)
         {
             var person = players.GetNextPerson();
-            Assert.AreEqual(expectedResult[i].Name, person.Name);
+            Assert.AreEqual(expectedResult[i].Name, tim.Name);
         }
 
-        // Verify that the people with infinite turns really do have infinite turns.
+        // Verify that Tim with infinite turns stay in queue.
         var infinitePerson = players.GetNextPerson();
-        Assert.AreEqual(timTurns, infinitePerson.Turns, "People with infinite turns should not have their turns parameter modified to a very big number. A very big number is not infinite.");
+        Assert.AreEqual(timTurns, infinitePerson.Turns, "Tim with infinite turns should not have their turns parameter modified to a very big number. A very big number is not infinite.");
     }
 
     [TestMethod]
